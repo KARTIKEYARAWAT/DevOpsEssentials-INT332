@@ -1,0 +1,43 @@
+DOCKER UNIT 2: STORAGE & NETWORKING CHEAT SHEET
+===============================================
+
+Storage Hacks (Flags to remember)
+---------------------------------
+- Bind Mount (Dev):   `-v /host/path:/container/path`
+- Volume (Prod):     `-v my_volume:/container/path`
+- Tmpfs (Secrets):   `--tmpfs /path/to/hide`
+- The Pro Way:       `--mount type=<type>,source=<src>,target=<dst>`
+
+Storage Commands:
+- docker volume create [name]      - Make a new data bucket
+- docker volume ls                 - List all buckets
+- docker volume inspect [name]     - See the hidden path
+- docker volume prune              - WIPEOUT ALL UNUSED (Caution!)
+
+Networking Hacks
+-----------------
+Key Drivers:
+1. Bridge (Default): Private local nw.
+2. Host: No isolation (fastest).
+3. Overlay: Multi-host (for swarm/k8s).
+4. None: Isolated.
+
+Networking Commands:
+- docker network ls                - Check networks
+- docker network create [name]     - Create custom (for DNS)
+- docker network connect [nw] [c]  - Connect running container
+- docker network inspect [name]    - Find IPs and subnet info
+
+Monitoring & Inspection
+-----------------------
+- docker inspect [name]            - ALL the config (IPs, mounts)
+- docker stats                     - Live CPU/Memory monitor
+- docker system df                 - See what's eating my disk
+
+Theoretical Logic (Extra marks section)
+---------------------------------------
+- PERSISTENCE: Containers are ephemeral (temporary). Use volumes to save data.
+- DNS: Only available in USER-DEFINED bridge networks. NOT default bridge.
+- PORT MAPPING: `-p [HostPort]:[ContainerPort]` (Ex. 8080:80).
+
+*Kart's Tip: If you get an error that say 'no space left on device', use 'docker system prune' or 'docker image prune'.*
